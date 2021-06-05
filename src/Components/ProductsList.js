@@ -1,5 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import {useState } from "react";
 import { Channel } from "../services/eventService";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+
 
 
 export default function ProductList(){
@@ -15,14 +17,18 @@ export default function ProductList(){
     
     return(
         <ul className="product-list">
-            {products.map((product)=>(
-                <li key={product._id} className="product-list-item">
-                    <button onClick={remove(product._id)} >X</button>
-                    <img src={product.image} alt={product.description} />
-                    <div>{product.description}</div>
-                    <div>{product.price}</div>
-                </li>
-            ))}
+            <TransitionGroup>
+                {products.map((product)=>(
+                    <CSSTransition key={product._id} timeout={300} classNames="product">
+                        <li  className="product-list-item">
+                            <button onClick={()=>remove(product._id)} >X</button>
+                            <img src={product.image} alt={product.description} />
+                            <div>{product.description}</div>
+                            <div>{product.price}</div>
+                        </li>
+                    </CSSTransition>
+                ))}
+            </TransitionGroup>
         </ul>
     )
 }
